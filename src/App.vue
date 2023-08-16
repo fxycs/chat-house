@@ -1,32 +1,63 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <div class="header">
+      <div class="traffic-lights">
+        <div class="light red"></div>
+        <div class="light yellow"></div>
+        <div class="light green"></div>
+      </div>
+      <span>Reg Studio</span>
+    </div>
+    <Chat></Chat>
   </div>
 </template>
 
+<script>
+import Chat from './components/Child.vue'
+
+export default {
+  components: {
+    Chat
+  },
+  data(){
+    return{
+      
+    }
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+#app{
+  max-width: 600px; 
 }
 
-nav {
-  padding: 30px;
+.header {
+  display: flex;
+  justify-content: center; /* 将内容居中 */
+  padding: 12px 16px;
+  background-color: black;
+  color: white;
+  position : relative; /* 为子元素的定位做准备 */
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.traffic-lights {
+  position: absolute; /* 使用绝对定位 */
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+
+.light {
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+  border-radius: 50%;
 }
+
+.red { background-color: red; }
+.yellow { background-color: yellow; }
+.green { background-color: green; }
 </style>
