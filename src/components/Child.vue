@@ -76,9 +76,9 @@ export default {
 }
 
 .messages-box {
-  max-height: 400px;
+  height: 400px;
   padding: 8px;
-  overflow: auto;
+  overflow-y: auto;
 }
 
 .message {
@@ -156,5 +156,9 @@ button:disabled{
   background: #b6abab;
   cursor: not-allowed;
   color: #776d6d;
+}
+
+.user-selector{
+  margin-top: 12px;
 }
 </style>
