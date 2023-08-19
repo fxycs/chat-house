@@ -6,15 +6,15 @@
       </select>
     </div>
     <div ref="messagesBox" class="messages-box">
-      <div v-for="message in messages" :key="message.id" 
+      <div v-for="message in messages" :key="message.messageID" 
          :class="['message', (message.isMe && selectUser === 'Me') || (!message.isMe && selectUser === 'Other') ? 'Me' : 'Other']">
         <img :src="message.avatar" alt="avatar" class="avatar"/>
         <div class="message-content">{{ message.text }}</div>
       </div>
     </div>
     <div class="input-area">
-      <input type="text" v-model="inputText" @keydown.ctrl.enter="sendMessage" maxlength="1000" placeholder="请输入消息" />
-      <button @click="sendMessage">发送</button>
+      <input type="text" v-model="inputText" @keydown.ctrl.enter="sendMessage"  maxlength="1000" placeholder="请输入消息" />
+      <button @click="sendMessage" :disabled="ISsendButonDisabled">发送</button>
     </div>
   </div>
 </template>
@@ -24,16 +24,25 @@ export default {
   
   data() {
     return {
-      messages: [],
-      inputText: '',
-      userAvatar: '',
+      messages : [],
+      inputText : '',
+      userAvatar : '',
       selectUser : '',
+      messageId : 0,
+      ISsendButonDisabled : true,
       users:[
         {id : 1,name: 'Me', avatar: require('../assets/dog.jpg')},
         {id : 2,name: 'Other', avatar: require('../assets/cat.jpg')}
       ]
     };
   },
+
+  watch : {
+    inputText(val){
+      this.ISsendButonDisabled = val.trim() === ''
+    }
+  },
+
   methods: {
     sendMessage() {
       if (this.inputText.trim() === '') return;
@@ -41,8 +50,9 @@ export default {
       let currentUser = this.users.find(user => user.name === this.selectUser)
 
       this.messages.push({
-        id: this.selectUser.id,
-        sender: this.selectUser.name,
+        messageID : this.messageId++,
+        id: currentUser.id,
+        sender: currentUser.name,
         text: this.inputText,
         avatar: currentUser.avatar,
         isMe : this.selectUser === 'Me'
@@ -68,6 +78,7 @@ export default {
 .messages-box {
   max-height: 400px;
   padding: 8px;
+  overflow: auto;
 }
 
 .message {
@@ -141,4 +152,9 @@ button {
   margin-left: 0;
 }
 
+button:disabled{
+  background: #b6abab;
+  cursor: not-allowed;
+  color: #776d6d;
+}
 </style>
